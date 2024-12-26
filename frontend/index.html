@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Service</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://smartcaptcha.yandexcloud.net/captcha.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Сервис обмена заметками</h1>
+
+        <!-- Поле для ввода новой заметки -->
+        <textarea id="noteInput" placeholder="Напишите свою заметку здесь..."></textarea>
+        <button id="submitButton">Отправить</button>
+
+        <!-- Поле для поиска заметки по ID -->
+        <div class="fetch-container">
+            <input type="text" id="noteIdInput" placeholder="Введите ID заметки..." />
+            <button id="fetchButton">Получить заметку</button>
+        </div>
+
+        <!-- Капча от Яндекса -->
+        <div style="height: 100px" id="captcha-container" class="smart-captcha"
+            data-sitekey="<YANDEX_SITE_KEY>"
+            data-callback="yandex_captcha">
+        </div>
+
+        <!-- Скрытое поле для хранения токена капчи -->
+        <input type="hidden" name="captcha_token">
+
+    </div>
+
+    <script>
+        // Функция обработки решения капчи
+        function yandex_captcha(token) {
+            // Получаем элемент скрытого поля и добавляем токен капчи
+            var tokenInput = document.querySelector('input[name="captcha_token"]');
+            tokenInput.value = token;  // Устанавливаем токен в скрытое поле
+        }
+
+        // Инициализация капчи
+        smartCaptcha.render('captcha-container', {
+            sitekey: 'ysc1_GJTNDhHixFgjbWbP2ANiBudNjxf7uuEcGqninafg1d089560', // Ваш sitekey
+            callback: function (token) {
+                // Капча решена, токен добавлен в скрытое поле
+                yandex_captcha(token);
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
